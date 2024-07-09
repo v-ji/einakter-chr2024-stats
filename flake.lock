@@ -1,0 +1,40 @@
+{
+  "nodes": {
+    "einakter": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-Iv7ibM2w1L9XbTbYZfjmFQBMNFuos96lU8Ijp7KU1RY=",
+        "type": "file",
+        "url": "https://github.com/dracor-org/einakter/releases/download/v1.5.0/einakter-v1.5.0.json"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/dracor-org/einakter/releases/download/v1.5.0/einakter-v1.5.0.json"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1718428119,
+        "narHash": "sha256-WdWDpNaq6u1IPtxtYHHWpl5BmabtpmLnMAx0RdJ/vo8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e6cea36f83499eb4e9cd184c8a8e823296b50ad5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "einakter": "einakter",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
