@@ -4,10 +4,6 @@
 # Exclude nix-managed files
 data/einakter.json
 
-# Exclude outputs
-plots/
-latex/
-
 ### direnv ###
 .direnv
 .envrc
