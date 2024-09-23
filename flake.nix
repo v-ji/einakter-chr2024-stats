@@ -28,7 +28,7 @@
       forAllSystems =
         f: nixpkgs.lib.genAttrs defaultSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
 
-      pythonVersion = pkgs: pkgs.python311;
+      pythonVersion = pkgs: pkgs.python312;
 
       # Define Python packages
       getPythonPackages =

@@ -83,7 +83,7 @@ def to_latex(
     float_format="{:,.2f}".format,
     latex_dir="outputs/latex/",
 ):
-    ci_string = "\multicolumn{2}{c}{" + f"{round(confidence_level*100)}\% CI" + "}"
+    ci_string = "\\multicolumn{2}{c}{" + f"{round(confidence_level*100)}\\% CI" + "}"
 
     if "ci" in df.columns:
         # Unnest the confidence interval column to ci_low and ci_high
