@@ -19,7 +19,7 @@
     }:
     let
       # Systems supported
-      allSystems = [
+      defaultSystems = [
         "x86_64-linux"
         "aarch64-linux"
         "x86_64-darwin"
@@ -28,7 +28,7 @@
 
       # Helper to provide system-specific attributes
       forAllSystems =
-        f: nixpkgs.lib.genAttrs allSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
+        f: nixpkgs.lib.genAttrs defaultSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
     in
     {
       # Development environment output
