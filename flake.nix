@@ -68,5 +68,49 @@
             };
         }
       );
+
+      # Executed by `nix build .`
+      packages = forAllSystems (
+        { pkgs, ... }:
+        {
+          default = pkgs.stdenv.mkDerivation {
+            name = "jupyterNotebook";
+            src = ./.;
+
+            __darwinAllowLocalNetworking = true; # Local networking is necessary for the Jupyter server
+
+            buildInputs = [
+              # Python plus required packages
+              (pkgs.python311.withPackages (
+                ps: with ps; [
+                  jupyter
+                  polars
+                  pyarrow
+                  scipy
+                  seaborn
+                ]
+              ))
+            ];
+
+            buildPhase = ''
+              # Symlink dataset into dev environment (verbose)
+              ln -v -f -s ${einakter.outPath} ./data/einakter.json
+
+              jupyter nbconvert \
+                --to notebook \
+                --execute \
+                --ClearMetadataPreprocessor.enabled=True \
+                --output result \
+                main.ipynb
+            '';
+
+            installPhase = ''
+              mkdir -p $out
+              cp result.ipynb $out/
+              cp -r outputs/ $out/
+            '';
+          };
+        }
+      );
     };
 }
