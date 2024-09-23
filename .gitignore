@@ -1,8 +1,11 @@
+# Exclude Nix-managed files
+data/einakter.json
+
+# Exclude Nix build result symlink
+result
+
 # Created by https://www.toptal.com/developers/gitignore/api/direnv,macos,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=direnv,macos,python
-
-# Exclude nix-managed files
-data/einakter.json
 
 ### direnv ###
 .direnv
