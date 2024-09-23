@@ -1,7 +1,6 @@
 {
   description = "Development environment for the paper ‘Univariate Statistical Analysis of a Non-Canonical Genre’";
 
-  # Flake inputs
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     einakter = {
@@ -10,7 +9,6 @@
     };
   };
 
-  # Flake outputs
   outputs =
     {
       self,
@@ -29,47 +27,47 @@
       # Helper to provide system-specific attributes
       forAllSystems =
         f: nixpkgs.lib.genAttrs defaultSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
+
+      pythonVersion = pkgs: pkgs.python311;
+
+      # Define Python packages
+      getPythonPackages =
+        pkgs: ps: with ps; [
+          jupyter
+          polars
+          pyarrow
+          scipy
+          seaborn
+        ];
+
+      # Create Python environment
+      getPythonEnv =
+        pkgs: extraPackages:
+        (pythonVersion pkgs).withPackages (ps: getPythonPackages pkgs ps ++ extraPackages ps);
+
+      # Command to symlink dataset into data directory (verbose)
+      linkDataset = ''
+        ln -v -f -s ${einakter.outPath} ./data/einakter.json
+      '';
     in
     {
-      # Development environment output
       devShells = forAllSystems (
         { pkgs }:
         {
-          default =
-            let
-              # Use Python 3.11
-              python = pkgs.python311;
-            in
-            pkgs.mkShell {
-              # The Nix packages provided in the environment
-              packages = [
-                # Python plus helper tools
-                (python.withPackages (
-                  ps: with ps; [
-                    pip # The pip installer
-                    jupyter
-                    polars # Dataframes
-                    pyarrow
-                    scipy # Statistics
-                    seaborn # Plotting
-                  ]
-                ))
-              ];
+          default = pkgs.mkShell {
+            packages = [ (getPythonEnv pkgs (ps: [ ps.pip ])) ];
+            shellHook = ''
+              echo "Writing requirements.txt for non-Nix users…"
+              echo "# requirements.txt is provided on a best-effort basis." > requirements.txt
+              echo "# Please use Nix for a fully reproducible environment." >> requirements.txt
+              pip freeze >> requirements.txt
 
-              shellHook = ''
-                echo "Writing requirements.txt for non-Nix users…"
-                echo "# requirements.txt is provided on a best-effort basis." > requirements.txt
-                echo "# Please use Nix for a fully reproducible environment." >> requirements.txt
-                pip freeze >> requirements.txt
-
-                # Symlink dataset into dev environment (verbose)
-                ln -v -f -s ${einakter.outPath} ./data/einakter.json
-              '';
-            };
+              ${linkDataset}
+            '';
+          };
         }
       );
 
-      # Executed by `nix build .`
       packages = forAllSystems (
         { pkgs, ... }:
         {
@@ -77,24 +75,13 @@
             name = "jupyterNotebook";
             src = ./.;
 
-            __darwinAllowLocalNetworking = true; # Local networking is necessary for the Jupyter server
+            # Required for the Jupyter server to work on macOS
+            __darwinAllowLocalNetworking = true;
 
-            buildInputs = [
-              # Python plus required packages
-              (pkgs.python311.withPackages (
-                ps: with ps; [
-                  jupyter
-                  polars
-                  pyarrow
-                  scipy
-                  seaborn
-                ]
-              ))
-            ];
+            buildInputs = [ (getPythonEnv pkgs (ps: [ ])) ];
 
             buildPhase = ''
-              # Symlink dataset into dev environment (verbose)
-              ln -v -f -s ${einakter.outPath} ./data/einakter.json
+              ${linkDataset}
 
               jupyter nbconvert \
                 --to notebook \
