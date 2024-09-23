@@ -81,7 +81,7 @@ def to_latex(
     confidence_level: float = 0.95,
     na_rep="NULL",
     float_format="{:,.2f}".format,
-    latex_dir="latex/",
+    latex_dir="outputs/latex/",
 ):
     ci_string = "\multicolumn{2}{c}{" + f"{round(confidence_level*100)}\% CI" + "}"
 
