@@ -83,6 +83,9 @@
             buildPhase = ''
               ${linkDataset}
 
+              # Create a directory for the matplotlib configuration (suppresses warning)
+              export MPLCONFIGDIR=$(pwd)/matplotlib
+
               jupyter nbconvert \
                 --to notebook \
                 --execute \
