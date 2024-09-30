@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     einakter = {
-      url = "https://github.com/dracor-org/einakter/releases/download/v1.5.0/einakter-v1.5.0.json";
+      url = "https://github.com/dracor-org/einakter/releases/download/v2.0.0/einakter-v2.0.0.json";
       flake = false;
     };
   };

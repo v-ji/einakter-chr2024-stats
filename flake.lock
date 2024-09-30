@@ -3,13 +3,13 @@
     "einakter": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Iv7ibM2w1L9XbTbYZfjmFQBMNFuos96lU8Ijp7KU1RY=",
+        "narHash": "sha256-v93/cbienccI8ODHqWDvdTLr132kkO+BASI6HzPzfpQ=",
         "type": "file",
-        "url": "https://github.com/dracor-org/einakter/releases/download/v1.5.0/einakter-v1.5.0.json"
+        "url": "https://github.com/dracor-org/einakter/releases/download/v2.0.0/einakter-v2.0.0.json"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/dracor-org/einakter/releases/download/v1.5.0/einakter-v1.5.0.json"
+        "url": "https://github.com/dracor-org/einakter/releases/download/v2.0.0/einakter-v2.0.0.json"
       }
     },
     "nixpkgs": {
