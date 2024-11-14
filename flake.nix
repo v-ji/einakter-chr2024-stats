@@ -45,9 +45,9 @@
         pkgs: extraPackages:
         (pythonVersion pkgs).withPackages (ps: getPythonPackages pkgs ps ++ extraPackages ps);
 
-      # Command to symlink dataset into data directory (verbose)
-      linkDataset = ''
-        ln -v -f -s ${einakter.outPath} ./data/einakter.json
+      # Command to export the dataset path in the Nix store
+      exportEinakterDataset = ''
+        export EINAKTER_DATASET_PATH=${einakter.outPath}
       '';
     in
     {
@@ -62,7 +62,7 @@
               echo "# Please use Nix for a fully reproducible environment." >> requirements.txt
               pip freeze >> requirements.txt
 
-              ${linkDataset}
+              ${exportEinakterDataset}
             '';
           };
         }
@@ -81,7 +81,7 @@
             buildInputs = [ (getPythonEnv pkgs (ps: [ ])) ];
 
             buildPhase = ''
-              ${linkDataset}
+              ${exportEinakterDataset}
 
               # Create a directory for the matplotlib configuration (suppresses warning)
               export MPLCONFIGDIR=$(pwd)/matplotlib
