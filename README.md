@@ -42,7 +42,7 @@ This will set up the environment with all necessary dependencies and symlink the
 
 ## Running the Jupyter Notebook
 
-After entering the development environment, you can start Jupyter Notebook:
+After entering the development environment, you can start the Jupyter Notebook:
 
 ```sh
 jupyter notebook main.ipynb
