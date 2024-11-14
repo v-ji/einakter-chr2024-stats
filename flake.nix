@@ -86,17 +86,26 @@
               # Create a directory for the matplotlib configuration (suppresses warning)
               export MPLCONFIGDIR=$(pwd)/matplotlib
 
+              echo "Executing Jupyter notebook…"
+
               jupyter nbconvert \
                 --to notebook \
                 --execute \
                 --ClearMetadataPreprocessor.enabled=True \
                 --output result \
                 main.ipynb
+
+              echo "Rendering Jupyter notebook to HTML…"
+
+              jupyter nbconvert \
+                --to html \
+                result.ipynb
             '';
 
             installPhase = ''
               mkdir -p $out
               cp result.ipynb $out/
+              cp result.html $out/
               cp -r outputs/ $out/
             '';
           };
