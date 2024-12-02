@@ -44,11 +44,6 @@
       getPythonEnv =
         pkgs: extraPackages:
         (pythonVersion pkgs).withPackages (ps: getPythonPackages pkgs ps ++ extraPackages ps);
-
-      # Command to export the dataset path in the Nix store
-      exportEinakterDataset = ''
-        export EINAKTER_DATASET_PATH=${einakter.outPath}
-      '';
     in
     {
       devShells = forAllSystems (
@@ -56,13 +51,12 @@
         {
           default = pkgs.mkShell {
             packages = [ (getPythonEnv pkgs (ps: [ ps.pip ])) ];
+            EINAKTER_DATASET_PATH = einakter.outPath;
             shellHook = ''
               echo "Writing requirements.txt for non-Nix users…"
               echo "# requirements.txt is provided on a best-effort basis." > requirements.txt
               echo "# Please use Nix for a fully reproducible environment." >> requirements.txt
               pip freeze >> requirements.txt
-
-              ${exportEinakterDataset}
             '';
           };
         }
@@ -80,9 +74,9 @@
 
             buildInputs = [ (getPythonEnv pkgs (ps: [ ])) ];
 
-            buildPhase = ''
-              ${exportEinakterDataset}
+            EINAKTER_DATASET_PATH = einakter.outPath;
 
+            buildPhase = ''
               # Create a directory for the matplotlib configuration (suppresses warning)
               export MPLCONFIGDIR=$(pwd)/matplotlib
 
