@@ -1,3 +1,4 @@
+import os
 import polars as pl
 import scipy.stats as stats
 import numpy as np
@@ -74,6 +75,16 @@ def bootstrap(series: np.typing.ArrayLike, n_iter: int, conf_level: float = 0.95
     return bootstrap_result
 
 
+def ensure_dir_exists(directory: str):
+    """
+    Ensures that the given directory exists. Creates it if it doesn't exist.
+    """
+    try:
+        os.makedirs(directory, exist_ok=True)
+    except Exception as e:
+        raise RuntimeError(f"Failed to create or access directory '{directory}': {e}")
+
+
 def to_latex(
     df: pl.DataFrame,
     caption: str,
@@ -83,6 +94,8 @@ def to_latex(
     float_format="{:,.2f}".format,
     latex_dir="outputs/latex/",
 ):
+    ensure_dir_exists(latex_dir)
+
     ci_string = "\\multicolumn{2}{c}{" + f"{round(confidence_level*100)}\\% CI" + "}"
 
     if "ci" in df.columns:

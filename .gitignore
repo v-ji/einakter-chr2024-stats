@@ -1,5 +1,5 @@
-# Exclude Nix-managed files
-data/einakter.json
+# Exclude outputs directory
+outputs/
 
 # Exclude Nix build result symlink
 result

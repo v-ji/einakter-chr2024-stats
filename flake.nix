@@ -66,7 +66,7 @@
         { pkgs, ... }:
         {
           default = pkgs.stdenv.mkDerivation {
-            name = "jupyterNotebook";
+            name = "einakter-chr2024-notebook";
             src = ./.;
 
             # Required for the Jupyter server to work on macOS
@@ -86,21 +86,20 @@
                 --to notebook \
                 --execute \
                 --ClearMetadataPreprocessor.enabled=True \
+                --output-dir outputs \
                 --output result \
                 main.ipynb
 
               echo "Rendering Jupyter notebook to HTML…"
 
               jupyter nbconvert \
+                --output-dir outputs \
                 --to html \
-                result.ipynb
+                outputs/result.ipynb
             '';
 
             installPhase = ''
-              mkdir -p $out
-              cp result.ipynb $out/
-              cp result.html $out/
-              cp -r outputs/ $out/
+              cp -r outputs $out
             '';
           };
         }
