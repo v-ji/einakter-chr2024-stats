@@ -102,6 +102,11 @@
               cp -r outputs $out
             '';
           };
+
+          dockerShell = pkgs.dockerTools.buildNixShellImage {
+            name = "einakter-chr2024-env";
+            drv = self.packages.${pkgs.system}.default;
+          };
         }
       );
     };
