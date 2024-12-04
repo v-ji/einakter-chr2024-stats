@@ -103,9 +103,9 @@
             '';
           };
 
-          dockerShell = pkgs.dockerTools.buildNixShellImage {
-            name = "einakter-chr2024-env";
+          dockerShell = pkgs.dockerTools.buildNixShellImage rec {
             drv = self.packages.${pkgs.system}.default;
+            tag = drv.version or null;
           };
         }
       );
