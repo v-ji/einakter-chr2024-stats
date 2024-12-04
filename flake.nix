@@ -67,6 +67,7 @@
         {
           default = pkgs.stdenv.mkDerivation {
             name = "einakter-chr2024-notebook";
+            version = "1.0.0";
             src = ./.;
 
             # Required for the Jupyter server to work on macOS
